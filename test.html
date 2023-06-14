@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Координаты плитки карты</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="input-group">
+        <label for="latitude">Широта:</label>
+        <input type="text" id="latitude" placeholder="Введите широту">
+    </div>
+    <div class="input-group">
+        <label for="longitude">Долгота:</label>
+        <input type="text" id="longitude" placeholder="Введите долготу">
+    </div>
+    <div class="input-group">
+        <button class="button" onclick="calculateTile()">Рассчитать плитку</button>
+    </div>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateTile() {
+        var latitude = parseFloat(document.getElementById('latitude').value);
+        var longitude = parseFloat(document.getElementById('longitude').value);
+        var zoom = 19;
+        var tileSize = 256;
+        var tileX = Math.floor((longitude + 180) / 360 * Math.pow(2, zoom));
+        var tileY = Math.floor((1 - Math.log(Math.tan(latitude * Math.PI / 180) + 1 / Math.cos(latitude * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
+
+        var result = document.getElementById('result');
+        result.innerHTML = 'Координаты плитки: X = ' + tileX + ', Y = ' + tileY;
+    }
+</script>
+</body>
+</html>
